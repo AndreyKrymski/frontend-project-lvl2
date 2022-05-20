@@ -7,4 +7,4 @@ make lint:
 make test:
 	npm test
 make coverage:
-	npx jest --coverage
+	npm test -- --coverage
