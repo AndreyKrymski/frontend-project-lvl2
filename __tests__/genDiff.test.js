@@ -1,4 +1,3 @@
-import { test, expect } from '@jest/globals';
 import func from '../parsers/exampleFunction.js';
 
 const file1 = {
@@ -13,13 +12,13 @@ const file2 = {
   host: 'hexlet.io',
 };
 const result = `{
-  - follow: false
-    host: hexlet.io
-  - proxy: 123.234.53.22
-  + timeout: 20
-  - timeout: 50
-  - verbose: true
- }`;
+ - follow: false
+   host: hexlet.io
+ - proxy: 123.234.53.22
+ + timeout: 20
+ - timeout: 50
+ - verbose: true
+}`;
 
 test('gennDiff', () => {
   expect(func(file1, file2)).toEqual(result);
