@@ -9,7 +9,7 @@ const file1 = {
   proxy: '123.234.53.22',
   follow: false,
 };
-const result2 = ['   host: hexlet.io', ' - verbose: true', ' + timeout: 20', ' - timeout: 50', ' - follow: false',
+const result2 = ['   host: hexlet.io', ' + verbose: true', ' + timeout: 20', ' - timeout: 50', ' - follow: false',
   ' - proxy: 123.234.53.22'];
 const file2 = {
   timeout: 20,
@@ -22,7 +22,7 @@ const result = `{
  - proxy: 123.234.53.22
  + timeout: 20
  - timeout: 50
- - verbose: true
+ + verbose: true
 }`;
 describe('my tests', () => {
   test('func', () => {
@@ -40,5 +40,7 @@ describe('my tests', () => {
 
   test('genDiff', () => {
     expect(genDiff('__fixtures__/file1.json', '__fixtures__/file2.json')).toEqual(result);
+    expect(genDiff('__fixtures__/file1.yml', '__fixtures__/file2.yml')).toEqual(result);
+    expect(genDiff('__fixtures__/file1.yaml', '__fixtures__/file2.yaml')).toEqual(result);
   });
 });

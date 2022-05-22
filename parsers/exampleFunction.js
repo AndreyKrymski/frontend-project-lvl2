@@ -15,14 +15,14 @@ const func = (object1, object2) => {
       return itemValue(item, value1, negativeSign);
     }
     if (!_.has(object1, item) && _.has(object2, item)) {
-      return itemValue(item, value2, negativeSign);
+      return itemValue(item, value2, positivSign);
     }
     if (_.has(object1, item) && _.has(object2, item)) {
       if (value1 === value2) {
         return itemValue(item, value1);
       }
       return [itemValue(item, value1, negativeSign), itemValue(item, value2, positivSign)];
-    } return func(value1, value2);
+    } return 'Eror, file contains internal files';
   });
   return func2(massiv);
 };
