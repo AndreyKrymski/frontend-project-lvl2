@@ -1,10 +1,12 @@
-import jsonParser from '../parsers/jsonParser.js';
-import func from '../parsers/exampleFunction.js';
+import parse from "./parsers/parse.js";
+import findDifferce from "./comparer/findDifference.js";
 
 const genDiff = (filepath1, filepath2) => {
-  const file1 = jsonParser(filepath1);
-  const file2 = jsonParser(filepath2);
-  const ans = func(file1, file2);
-  return ans;
+  const object1 = parse(filepath1);
+  const object2 = parse(filepath2);
+
+  const diff = findDifferce(object1, object2);
+  return diff;
 };
+
 export default genDiff;
