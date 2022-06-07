@@ -10,9 +10,9 @@ const stylish = (diff, level = 1) => {
     }
 
     const currentTab = tabSymbol.repeat(tabSize * depth);
+    const closingBracketTab = tabSymbol.repeat(tabSize * depth - tabSize);
 
     const result = _.flatten([tree]).reduce((acc, branch) => {
-      let a = tree;
       let props;
 
       if (_.isArray(branch)) {
@@ -41,9 +41,7 @@ const stylish = (diff, level = 1) => {
       return [...acc, ...lines];
     }, []);
 
-    const b = [...result];
-
-    return ["{", ...result, `${currentTab - tabSize}}`].join("\n");
+    return ["{", ...result, `${closingBracketTab}}`].join("\n");
   };
 
   return stylishDiff(diff, level);
