@@ -12,7 +12,7 @@ const stylish = (diff, level = 1) => {
     const currentTab = tabSymbol.repeat(tabSize * depth);
     const closingBracketTab = tabSymbol.repeat(tabSize * depth - tabSize);
 
-    const result = _.flatten([tree]).reduce((acc, branch) => {
+    const result = _.flatten([tree]).flatMap((branch) => {
       let props;
 
       if (_.isArray(branch)) {
@@ -38,8 +38,8 @@ const stylish = (diff, level = 1) => {
         }: ${currentValue}`;
       });
 
-      return [...acc, ...lines];
-    }, []);
+      return lines;
+    });
 
     return ["{", ...result, `${closingBracketTab}}`].join("\n");
   };
