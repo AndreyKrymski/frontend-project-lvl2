@@ -1,50 +1,44 @@
 import _ from 'lodash';
 
-const tabSize = 2;
-const tabSymbol = ' ';
+const INDENT = 4;
 
-const stylish = (diff, level = 1) => {
-  const stylishDiff = (tree, depth) => {
-    if (!_.isUndefined(tree) && !_.isObject(tree)) {
-      return `${tree}`;
+const printObject = (obj, level = 0) => {
+  const indent = ' '.repeat(level * INDENT);
+
+  const mapped = Object.keys(obj).map((key) => {
+    if (_.isObject(obj[key])) {
+      return `${indent}    ${key}: ${printObject(obj[key], level + 1)}`;
     }
-
-    const currentTab = tabSymbol.repeat(tabSize * depth);
-    const closingBracketTab = tabSymbol.repeat(tabSize * depth - tabSize);
-
-    const result = _.flatten([tree]).flatMap((branch) => {
-      let props;
-
-      if (_.isArray(branch)) {
-        props = branch;
-      } else if (
-        !_.has(branch, 'key')
-        || !_.has(branch, 'value')
-        || !_.has(branch, 'sign')
-      ) {
-        props = Object.keys(branch).map((key) => ({
-          sign: ' ',
-          key,
-          value: branch[key],
-        }));
-      } else {
-        props = [branch];
-      }
-
-      const lines = props.map((prop) => {
-        const currentValue = stylishDiff(prop.value, depth + 2);
-        return `${currentTab}${prop.sign.replace('>', ' ')} ${
-          prop.key
-        }: ${currentValue}`;
-      });
-
-      return lines;
-    });
-
-    return ['{', ...result, `${closingBracketTab}}`].join('\n');
-  };
-
-  return stylishDiff(diff, level);
+    return `${indent}    ${key}: ${obj[key]}`;
+  });
+  return `{\n${mapped.join('\n')}\n${indent}}`;
 };
 
-export default stylish;
+const printToArray = (array, level = 0) => {
+  const indent = ' '.repeat(level * INDENT);
+  const makeValue = (value) => (_.isObject(value) ? printObject(value, level + 1) : value);
+
+  const strArray = array.map((elem) => {
+    const value = makeValue(elem.value);
+    switch (elem.action) {
+      case 'add':
+        return `${indent}  + ${elem.key}: ${value}`;
+      case 'same':
+        return `${indent}    ${elem.key}: ${value}`;
+      case 'different':
+        return `${indent}  - ${elem.key}: ${makeValue(elem.oldValue)}\n${indent}  + ${elem.key}: ${value}`;
+      case 'delete':
+        return `${indent}  - ${elem.key}: ${value}`;
+      case 'nested':
+        return `${indent}    ${elem.key}: {\n${printToArray(elem.children, level + 1)}\n${indent}    }`;
+      default:
+        return 'action error';
+    }
+  });
+
+  return strArray.join('\n');
+};
+
+const printStylish = (diff) => `{\n${printToArray(diff)}\n}`;
+
+export default printStylish;

@@ -1,34 +1,30 @@
 import _ from 'lodash';
 
-const findDifferce = (object1, object2) => {
-  const keys = _.union(_.keys(object1), _.keys(object2)).sort();
+const difference = (obj1, obj2) => {
+  const union = _.union(_.keys(obj1), _.keys(obj2)).sort();
 
-  const result = keys.map((key) => {
-    let differnce;
-
-    if (!_.has(object1, key)) {
-      differnce = { sign: '+', key, value: object2[key] };
-    } else if (!_.has(object2, key)) {
-      differnce = { sign: '-', key, value: object1[key] };
-    } else if (_.isObject(object1[key]) && _.isObject(object2[key])) {
-      differnce = {
-        sign: '>',
-        key,
-        value: findDifferce(object1[key], object2[key]),
-      };
-    } else if (!_.isEqual(object1[key], object2[key])) {
-      differnce = [
-        { sign: '-', key, value: object1[key] },
-        { sign: '+', key, value: object2[key] },
-      ];
-    } else {
-      differnce = { sign: ' ', key, value: object1[key] };
+  const result = union.map((key) => {
+    const val1 = obj1[key];
+    const val2 = obj2[key];
+    if (val1 === undefined) {
+      return { key, action: 'add', value: val2 };
     }
-
-    return differnce;
+    if (val2 === undefined) {
+      return { key, action: 'delete', value: val1 };
+    }
+    if (_.isObject(val1) && _.isObject(val2)) {
+      return { key, action: 'nested', children: difference(val1, val2) };
+    }
+    if (val1 === obj2[key]) {
+      return { key, action: 'same', value: val1 };
+    }
+    return {
+      key,
+      action: 'different',
+      oldValue: val1,
+      value: val2,
+    };
   });
-
   return result;
 };
-
-export default findDifferce;
+export default difference;
