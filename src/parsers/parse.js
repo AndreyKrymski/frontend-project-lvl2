@@ -1,17 +1,17 @@
-import fs from "fs";
-import parseJson from "./parseJson.js";
-import parseYaml from "./parseYaml.js";
+import fs from 'fs';
+import parseJson from './parseJson.js';
+import parseYaml from './parseYaml.js';
 
 const parse = (filePath) => {
-  const fileContent = fs.readFileSync(filePath, "utf8");
+  const fileContent = fs.readFileSync(filePath, 'utf8');
 
   let result;
-  if (filePath.endsWith(".json")) {
+  if (filePath.endsWith('.json')) {
     result = parseJson(fileContent);
-  } else if (filePath.endsWith(".yml") || filePath.endsWith(".yaml")) {
+  } else if (filePath.endsWith('.yml') || filePath.endsWith('.yaml')) {
     result = parseYaml(fileContent);
   } else {
-    result = "Eror file does not contain extension .json .yml .yaml";
+    result = 'Eror file does not contain extension .json .yml .yaml';
   }
   return result;
 };

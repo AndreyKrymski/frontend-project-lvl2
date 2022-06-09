@@ -1,7 +1,7 @@
-import _ from "lodash";
+import _ from 'lodash';
 
 const tabSize = 2;
-const tabSymbol = " ";
+const tabSymbol = ' ';
 
 const stylish = (diff, level = 1) => {
   const stylishDiff = (tree, depth) => {
@@ -18,12 +18,12 @@ const stylish = (diff, level = 1) => {
       if (_.isArray(branch)) {
         props = branch;
       } else if (
-        !_.has(branch, "key") ||
-        !_.has(branch, "value") ||
-        !_.has(branch, "sign")
+        !_.has(branch, 'key')
+        || !_.has(branch, 'value')
+        || !_.has(branch, 'sign')
       ) {
         props = Object.keys(branch).map((key) => ({
-          sign: " ",
+          sign: ' ',
           key,
           value: branch[key],
         }));
@@ -32,16 +32,16 @@ const stylish = (diff, level = 1) => {
       }
 
       const lines = props.map((prop) => {
-        const currentValue = stylishDiff(prop["value"], depth + 2);
-        return `${currentTab}${prop["sign"].replace(">", " ")} ${
-          prop["key"]
+        const currentValue = stylishDiff(prop.value, depth + 2);
+        return `${currentTab}${prop.sign.replace('>', ' ')} ${
+          prop.key
         }: ${currentValue}`;
       });
 
       return lines;
     });
 
-    return ["{", ...result, `${closingBracketTab}}`].join("\n");
+    return ['{', ...result, `${closingBracketTab}}`].join('\n');
   };
 
   return stylishDiff(diff, level);

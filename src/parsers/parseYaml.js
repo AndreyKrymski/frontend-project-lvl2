@@ -1,4 +1,4 @@
-import jsYaml from "js-yaml";
+import jsYaml from 'js-yaml';
 
 const parseYaml = (fileContent) => {
   const data = jsYaml.load(fileContent);
