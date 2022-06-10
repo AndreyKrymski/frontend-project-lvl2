@@ -1,11 +1,11 @@
 import plain from "./plain.js";
 import stylish from "./stylish.js";
 
-const format = (difference, type) => {
+const formatDifference = (difference, format) => {
   let result;
-  if (type === "stylish") {
+  if (format === "stylish") {
     result = stylish(difference);
-  } else if (type === "plain") {
+  } else if (format === "plain") {
     result = plain(difference);
   } else {
     result = "Eror file does not contain extension .json .yml .yaml";
@@ -13,4 +13,4 @@ const format = (difference, type) => {
   return result;
 };
 
-export default format;
+export default formatDifference;
