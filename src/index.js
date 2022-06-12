@@ -1,6 +1,6 @@
 import parse from './parsers/parse.js';
 import findDifferce from './comparer/findDifference.js';
-import printResult from './foramatters/index.js';
+import printResult from './foramatters/ind.js';
 
 const genDiff = (filepath1, filepath2, format) => {
   const object1 = parse(filepath1);
