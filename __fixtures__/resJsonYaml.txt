@@ -1,0 +1,1 @@
+[{"key":"follow","action":"delete","value":false},{"key":"host","action":"same","value":"hexlet.io"},{"key":"proxy","action":"delete","value":"123.234.53.22"},{"key":"timeout","action":"different","oldValue":50,"value":20},{"key":"verbose","action":"add","value":true}]
