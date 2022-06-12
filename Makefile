@@ -5,6 +5,6 @@ publish :
 make lint:
 	npx eslint .
 make test:
-	npm test
+	NODE_OPTIONS=--experimental-vm-modules npx jest
 make coverage:
 	npm test -- --coverage
