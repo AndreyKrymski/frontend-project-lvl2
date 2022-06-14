@@ -2,30 +2,53 @@ import fs from 'fs';
 import genDiff from '../src/index.js';
 
 const readFile = (filePath, perem = 'utf8') => fs.readFileSync(filePath, perem);
-
 describe('my tests', () => {
-  test('genDiff from file json', () => {
-    const result = readFile('__fixtures__/result1json.txt');
-    expect(genDiff('__fixtures__/file1.json', '__fixtures__/file2.json')).toEqual(result);
-  });
-  test('gendiff file test yaml', () => {
-    const result = readFile('__fixtures__/resYaml.txt');
-    expect(genDiff('__fixtures__/file1.yaml', '__fixtures__/file2.yaml')).toEqual(result);
-  });
-  test('gendiff file test plain json', () => {
-    const result = readFile('__fixtures__/resPlainJson.txt');
-    expect(genDiff('__fixtures__/file1.json', '__fixtures__/file2.json', 'plain')).toEqual(result);
-  });
-  test('gendiff file test plain yaml', () => {
-    const result = readFile('__fixtures__/resPlainYaml.txt');
-    expect(genDiff('__fixtures__/file1.yaml', '__fixtures__/file2.yaml', 'plain')).toEqual(result);
-  });
-  test('gendiff file test json json', () => {
-    const result = readFile('__fixtures__/resJsonJs.txt');
-    expect(genDiff('__fixtures__/file1.json', '__fixtures__/file2.json', 'json')).toEqual(result);
-  });
-  test('gendiff file test json yaml', () => {
-    const result = readFile('__fixtures__/resJsonYaml.txt');
-    expect(genDiff('__fixtures__/file1.yaml', '__fixtures__/file2.yaml', 'json')).toEqual(result);
+  const testCase = [
+    {
+      path1: '__fixtures__/file1.json',
+      path2: '__fixtures__/file2.json',
+      expected: '__fixtures__/result1json.txt',
+      format: 'stylish',
+    },
+    {
+      path1: '__fixtures__/file1.yaml',
+      path2: '__fixtures__/file2.yaml',
+      expected: '__fixtures__/resYaml.txt',
+      format: 'stylish',
+    },
+    {
+      path1: '__fixtures__/file1.json',
+      path2: '__fixtures__/file2.json',
+      expected: '__fixtures__/resPlainJson.txt',
+      format: 'plain',
+    },
+    {
+      path1: '__fixtures__/file1.yaml',
+      path2: '__fixtures__/file2.yaml',
+      expected: '__fixtures__/resPlainYaml.txt',
+      format: 'plain',
+    },
+    {
+      path1: '__fixtures__/file1.json',
+      path2: '__fixtures__/file2.json',
+      expected: '__fixtures__/resJsonJs.txt',
+      format: 'json',
+    },
+    {
+      path1: '__fixtures__/file1.yaml',
+      path2: '__fixtures__/file2.yaml',
+      expected: '__fixtures__/resJsonYaml.txt',
+      format: 'json',
+    },
+
+  ];
+  testCase.forEach((test) => {
+    it(
+      `genDiff file ${test.path1.slice(19)}, format: ${test.format}`,
+      () => {
+        const result = genDiff(test.path1, test.path2, test.format);
+        expect(result).toEqual(readFile(test.expected));
+      },
+    );
   });
 });
